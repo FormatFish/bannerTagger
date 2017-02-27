@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CrowSourcing</title>
+</head>
+<body>
+<form enctype="multipart/form-data" name="form1" method="POST" action="/image/">
+	<input type="file" name="image"/>
+	<input type="submit" name="submit"/>
+</form>
+<h2>当前已标注{{ number }} 个广告</h2><br>
+{% if flag %}
+<hr>
+<img src="/static/img/{{ filename }}" alt="Advertisement">
+<form enctype="multipart/form-data" name="form2" method="POST" action="/data/">
+	文件名称：{{ filename }}
+	<input type="hide" name="filename" value="{{ filename }}"><br>		
+	长：<input type="number" name="width" value="{{ width }}"/><br>
+	宽：<input type="number" name="height" value="{{ height }}"/><br>
+	长宽比：<input type="number" name="ratio" value="{{ ratio }}"/><br>
+	<font color="red">布局类型：</font><select name="category">
+		<option value="0">水平布局</option>
+		<option value="1">竖直布局</option>
+		<option value="2">左右布局</option>
+		<option value="3">上下布局</option>
+		<option value="4">对角布局</option>
+		<option value="5">中点布局</option>
+		<option value="6">分散布局布局</option>
+	</select><br>
+	<font color="red">图片数量：</font><input type="number" name="imgCount"/><br>
+	<font color="red">图片元素细节：</font><input type="textarea" id="imgElements" name="imgElements" readonly="readonly">
+	类别：<select id="imgCategory" name="imgCategory">
+		<option value="0">主图</option>
+		<option value="1">附图</option>
+		<option value="2">logo</option>
+	</select>
+	图片宽度：<input type="number" id="imgWidth" name="imgWidth"/>
+	图片高度：<input type="number" id="imgHeight" name="imgHeight"/>
+	图片横坐标：<input type="number" id="imgX" name="imgX"/>
+	图片纵坐标：<input type="number" id="imgY" name="imgY"/>
+
+	<script type="text/javascript">
+		function setData()
+		{
+			var str = '';
+			imgCategory = document.getElementById('imgCategory').value;
+			imgWidth = document.getElementById('imgWidth').value;
+			imgHeight = document.getElementById('imgHeight').value;
+			ratio = parseInt(imgWidth) * 1.0 / parseInt(imgHeight);
+			ratio = ratio.toFixed(2);
+			imgX = document.getElementById('imgX').value;
+			imgY = document.getElementById('imgY').value;
+			str = imgCategory + "/" + imgWidth + "/" + imgHeight + "/" + ratio + "/" + imgX + "/" + imgY + ";"
+			document.getElementById('imgElements').value += str;
+
+			document.getElementById('imgCategory').value = "";
+			document.getElementById('imgWidth').value = "";
+			document.getElementById('imgHeight').value = "";
+			document.getElementById('imgX').value = "";
+			document.getElementById('imgY').value = "";
+		}
+		function setTextData()
+		{
+			var str = '';
+			textCategory = document.getElementById('textCategory').value;
+			textWidth = document.getElementById('textWidth').value;
+			textHeight = document.getElementById('textHeight').value;
+			lines = document.getElementById('lines').value;
+			language = document.getElementById('language').value;
+			textX = document.getElementById('textX').value;
+			textY = document.getElementById('textY').value;
+			str = textCategory + "/" + textWidth + "/" + textHeight + "/" + lines + "/" + language + "/" + textX + "/" + textY + ";"
+			document.getElementById('textElements').value += str;
+
+			document.getElementById('textCategory').value = "";
+			document.getElementById('textWidth').value = "";
+			document.getElementById('textHeight').value = "";
+			document.getElementById('lines').value = "";
+			document.getElementById('language').value = "";
+			document.getElementById('textX').value = "";
+			document.getElementById('textY').value = "";
+		}
+	</script>
+	<input type="button" name="addpic" value="+" onclick="setData()">
+	<br>
+	<font color="red">文本数量：</font><input type="number" name="textCount"/><br>
+	<font color="red">文本元素细节：</font><input type="textarea" id="textElements" name="textElements" readonly="readonly" />
+	文本类别：<select id="textCategory" name="textCategory">
+		<option value="0">标题</option>
+		<option value="1">副标题</option>
+		<option value="2">描述</option>
+		<option value="3">品牌名</option>
+		<option value="4">商家推荐</option>
+	</select>
+	文本长度：<input type="number" id="textWidth" name="textWidth"/>
+	文本宽度：<input type="number" id="textHeight" name="textHeight"/>
+	文本行数：<input type="number" id="lines" name="lines"/>
+	文本语言类型：<select id="language" name="language">
+		<option value="0">中文</option>
+		<option value="1">英文</option>
+	</select>
+	文本横坐标：<input type="number" id="textX" name="textX"/>
+	文本纵坐标：<input type="number" id="textY" name="textY">
+	<input type="button" name="addtext" value="+" onclick="setTextData()">
+	<br>
+	<font color="red">文本对齐类型：</font><select name="textAlignment">
+		<option value="0">左对齐</option>
+		<option value="1">居中对齐</option>
+		<option value="2">右对齐</option>
+	</select><br>
+	主色调：<input type="text" name="dominantColor" value="{{ dominantColor }}" /><br>
+	图片色板：<input type="text" name="palette" value="{{ palette }}" /><br>
+	<font color="red">背景色：</font><input type="text" name="backgroundColor"/><br>
+	<font color="red">文字颜色：</font><input type="text" name="textColor"/><br>
+	<font color="red">背景类型：</font><select name="backgroundCategory">
+		<option value="0">纯色</option>
+		<option value="1">渐变</option>
+		<option value="2">纹样</option>
+		<option value="3">全图</option>
+	</select><br>
+
+	<input type="submit" name="submit"/>
+</form>
+{% endif %}
+</body>
+</html>
